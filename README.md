@@ -7,7 +7,7 @@ Spring Boot CRUD application for managing students. DevOps midterm project.
 - **Group:** IT2-2312
 - **GitHub:** https://github.com/olesherka
 
-Project status: initial version
+Project status: CRUD API ready for Docker (Ablekimov Alisher)
 
 ## Tech stack
 
