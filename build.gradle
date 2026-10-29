@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.ablekimov'
-version = '1.0.0'
+version = '1.1.0'
 description = 'Student API by Ablekimov Alisher (ID 37637, group IT2-2312)'
 
 java {
