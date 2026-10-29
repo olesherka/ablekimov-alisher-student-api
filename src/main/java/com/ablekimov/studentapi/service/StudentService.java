@@ -25,6 +25,11 @@ public class StudentService {
                 .orElseThrow(() -> new StudentNotFoundException(id));
     }
 
+    // Feature by Ablekimov Alisher: improved READ operation - search by last name
+    public List<Student> searchByLastName(String lastName) {
+        return repository.findByLastNameContainingIgnoreCase(lastName.trim());
+    }
+
     public Student create(Student student) {
         student.setId(null); // the database generates the id
         return repository.save(student);
