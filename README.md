@@ -58,3 +58,7 @@ Example student JSON:
 ## Docker image
 
 `ablekimov-alisher-student-api:v1.0-ablekimov-alisher`
+
+## Changelog
+
+- feature/ablekimov-alisher-crud (Ablekimov Alisher): added GET /api/students/search?lastName=... to find students by part of the last name (case-insensitive), with tests.
