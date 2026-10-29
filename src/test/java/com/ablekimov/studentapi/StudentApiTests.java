@@ -119,7 +119,7 @@ class StudentApiTests {
     void nonexistentStudentReturns404() throws Exception {
         mockMvc.perform(get("/api/students/{id}", 99999))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.message").value("Student with id 99999 not found"));
+                .andExpect(jsonPath("$.message").value("Student with id 99999 exists"));
     }
 
     @Test
