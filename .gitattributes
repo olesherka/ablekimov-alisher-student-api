@@ -1,0 +1,7 @@
+# Keep Linux line endings for shell scripts, otherwise they break in Docker/Jenkins
+* text=auto
+gradlew text eol=lf
+*.sh text eol=lf
+Jenkinsfile text eol=lf
+*.bat text eol=crlf
+*.jar binary

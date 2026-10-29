@@ -1,0 +1,25 @@
+# Local Jenkins server for the midterm (Docker-capable agent)
+# Author: Ablekimov Alisher (ID 37637, group IT2-2312)
+# Start:  cd jenkins && docker compose up -d --build
+# Open:   http://localhost:8081   (port 8080 is used by the Student API)
+
+name: ablekimov-alisher-jenkins
+
+services:
+  jenkins:
+    build: .
+    image: ablekimov-alisher-jenkins:lts
+    container_name: ablekimov-alisher-jenkins
+    # root is needed to use the host Docker socket; acceptable for a local study setup only
+    user: root
+    restart: unless-stopped
+    ports:
+      - "8081:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+
+volumes:
+  jenkins_home:
+    name: ablekimov_alisher_jenkins_home

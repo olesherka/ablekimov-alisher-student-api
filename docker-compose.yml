@@ -1,0 +1,59 @@
+# Docker Compose for the Student API + PostgreSQL
+# Author: Ablekimov Alisher (ID 37637, group IT2-2312)
+# Usage:  cp .env.example .env   (then set your own password)
+#         docker compose up -d --build
+
+name: ablekimov-alisher-student-api
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: ablekimov-alisher-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?Set POSTGRES_DB in .env}
+      POSTGRES_USER: ${POSTGRES_USER:?Set POSTGRES_USER in .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - ablekimov_alisher_pgdata:/var/lib/postgresql/data
+    networks:
+      - ablekimov-alisher-net
+    healthcheck:
+      # $$ means a literal $ for Compose, so the variable is read inside the container
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP_TAG: ${APP_TAG:-v1.0-ablekimov-alisher}
+    image: ablekimov-alisher-student-api:${APP_TAG:-v1.0-ablekimov-alisher}
+    container_name: ablekimov-alisher-app
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy   # start the app only when PostgreSQL is ready
+    environment:
+      # "db" is the service name: Docker's internal DNS resolves it to the PostgreSQL container.
+      # localhost would point to the app container itself, where there is no database.
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "8080:8080"
+    networks:
+      - ablekimov-alisher-net
+
+volumes:
+  ablekimov_alisher_pgdata:
+    name: ablekimov_alisher_pgdata
+
+networks:
+  ablekimov-alisher-net:
+    name: ablekimov-alisher-net
+    driver: bridge

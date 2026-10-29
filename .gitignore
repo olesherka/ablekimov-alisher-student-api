@@ -1,0 +1,22 @@
+# Secrets - never commit passwords or credentials
+.env
+*.env.local
+
+# Gradle build output
+.gradle/
+build/
+
+# Compiled files
+*.class
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+out/
+
+# OS files
+.DS_Store
+Thumbs.db
